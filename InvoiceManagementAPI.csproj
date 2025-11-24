@@ -1,0 +1,161 @@
+<!-- ============================================ -->
+<!-- File: InvoiceManagementAPI.csproj -->
+<!-- Location: Root of project -->
+<!-- This is the project file for Visual Studio -->
+<!-- ============================================ -->
+
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>
+
+<!-- ============================================ -->
+<!-- ADDITIONAL CONFIGURATION FILES -->
+<!-- ============================================ -->
+
+<!-- ============================================ -->
+<!-- File: web.config (For IIS Deployment) -->
+<!-- Location: Root of published folder -->
+<!-- ============================================ -->
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <location path="." inheritInChildApplications="false">
+    <system.webServer>
+      <handlers>
+        <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
+      </handlers>
+      <aspNetCore processPath="dotnet" 
+                  arguments=".\InvoiceManagementAPI.dll" 
+                  stdoutLogEnabled="false" 
+                  stdoutLogFile=".\logs\stdout" 
+                  hostingModel="inprocess" />
+    </system.webServer>
+  </location>
+</configuration>
+-->
+
+<!-- ============================================ -->
+<!-- File: launchSettings.json -->
+<!-- Location: Properties folder -->
+<!-- ============================================ -->
+<!--
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+-->
+
+<!-- ============================================ -->
+<!-- COMPLETE FILE STRUCTURE -->
+<!-- ============================================ -->
+<!--
+InvoiceManagementAPI/
+├── Controllers/
+│   ├── AuthController.cs
+│   ├── UsersController.cs
+│   ├── CompaniesController.cs
+│   ├── ClientsController.cs
+│   ├── BankAccountsController.cs
+│   ├── InvoicesController.cs
+│   └── ReportsController.cs
+├── Data/
+│   └── ApplicationDbContext.cs
+├── Models/
+│   ├── User.cs
+│   ├── Company.cs
+│   ├── Client.cs
+│   ├── BankAccount.cs
+│   └── Invoice.cs
+├── Services/
+│   ├── IAuthService.cs
+│   ├── AuthService.cs
+│   ├── IInvoiceService.cs
+│   └── InvoiceService.cs
+├── Properties/
+│   └── launchSettings.json
+├── appsettings.json
+├── appsettings.Development.json (optional)
+├── Program.cs
+├── InvoiceManagementAPI.csproj
+└── web.config (after publishing)
+-->
+
+<!-- ============================================ -->
+<!-- FRONTEND FILE STRUCTURE (Separate Project) -->
+<!-- ============================================ -->
+<!--
+invoice-frontend/
+├── public/
+│   ├── index.html
+│   └── favicon.ico
+├── src/
+│   ├── App.js (Main application - copy from artifact)
+│   ├── index.js
+│   ├── index.css
+│   └── App.css
+├── package.json
+└── README.md
+-->
+
+<!-- ============================================ -->
+<!-- WEB.CONFIG FOR FRONTEND (React on IIS) -->
+<!-- Location: In published frontend folder -->
+<!-- ============================================ -->
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="React Routes" stopProcessing="true">
+          <match url=".*" />
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="/" />
+        </rule>
+      </rules>
+    </rewrite>
+    <staticContent>
+      <mimeMap fileExtension=".json" mimeType="application/json" />
+    </staticContent>
+  </system.webServer>
+</configuration>
+-->
